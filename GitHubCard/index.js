@@ -53,6 +53,7 @@ const followersArray = [
     .get(`https://api.github.com/users/${user}`)
     .then (response => document.querySelector('.cards').appendChild(gitCardMaker(response.data)))
   })
+
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -95,7 +96,39 @@ const userProfile = document.createElement('p');
 const profileHref = document.createElement('a');
 const userFollowers = document.createElement('p');
 const userFollowing = document.createElement('p');
-const userBio = document.createElement
+const userBio = document.createElement('p');
+
+// add classes
+cardDiv.classList.add('card');
+cardInfoDiv.classList.add('card-info');
+userName.classList.add('name');
+userLogin.classList.add('username');
+
+// pass data through variables
+userImg.src = gitHubAvi;
+userName.textContent = gitHubName;
+userLogin.textContent = gitHubLogin;
+userLoc.textContent = gitHubLocation;
+userProfile.textContent = 'Profile:';
+profileHref.href = gitHubUrl;
+profileHref.textContent = gitHubUrl;
+userFollowers.textContent = `Followers: ${gitHubFollowers}`;
+userFollowing.textContent = `Following:${gitHubFollowing}`;
+userBio.textContent = gitHubBio;
+
+// organize html elements
+cardDiv.appendChild(userImg);
+cardDiv.appendChild(cardInfoDiv);
+cardInfoDiv.appendChild(userName);
+cardInfoDiv.appendChild(userLogin);
+cardInfoDiv.appendChild(userLoc);
+cardInfoDiv.appendChild(userProfile);
+userProfile.appendChild(profileHref);
+cardInfoDiv.appendChild(userFollowers);
+cardInfoDiv.appendChild(userFollowing);
+cardInfoDiv.appendChild(userBio);
+
+return cardDiv;
 
 }
 /*
