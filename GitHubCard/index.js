@@ -3,6 +3,8 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from 'axios'
+axios.get('https://api.github.com/users/quinn5moli')
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -11,6 +13,16 @@
 
     Skip to STEP 3.
 */
+.then((response => {
+  let myCard = response.data
+  content.appendChild(gitCardMaker(mycard))
+}))
+.catch(error => {
+  console.log(error);
+})
+.finally(complete =>{
+  console.log(complete);
+})
 
 /*
   STEP 4: Pass the data received from Github into your function,
@@ -28,7 +40,19 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'tetondan',
+ 'dustinmyers',
+  'justsml',
+   'luishrd',
+    'bigknell'
+  ];
+
+  followersArray.forEach(user => {
+    axios
+    .get(`https://api.github.com/users/${user}`)
+    .then (response => document.querySelector('.cards').appendChild(gitCardMaker(response.data)))
+  })
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,7 +73,64 @@ const followersArray = [];
       </div>
     </div>
 */
+function gitCardMaker(gitHubData) {
 
+// variables to pass data/objects through
+const gitHubAvi = gitHubData.avi_url;
+const gitHubName = gitHubData.name;
+const gitHubLogin = gitHubData.login;
+const gitHubLocation = gitHubData.location;
+const gitHubUrl = gitHubData.html_url;
+const gitHubFollowers = gitHubData.followers;
+const gitHubFollowing = gitHubData.following;
+const gitHubBio = gitHubData.bio;
+
+// html elements
+const cardDiv = document.createElement('div');
+const userImg = document.createElement('img');
+const cardInfoDiv = document.createElement('div');
+const userName = document.createElement('h3');
+const userLogin = document.createElement('p');
+const userLoc = document.createElement('p');
+const userProfile = document.createElement('p');
+const profileHref = document.createElement('a');
+const userFollowers = document.createElement('p');
+const userFollowing = document.createElement('p');
+const userBio = document.createElement('p');
+
+// add classes
+cardDiv.classList.add('card');
+cardInfoDiv.classList.add('card-info');
+userName.classList.add('name');
+userLogin.classList.add('username');
+
+// pass data through variables
+userImg.src = gitHubAvi;
+userName.textContent = gitHubName;
+userLogin.textContent = gitHubLogin;
+userLoc.textContent = gitHubLocation;
+userProfile.textContent = 'Profile:';
+profileHref.href = gitHubUrl;
+profileHref.textContent = gitHubUrl;
+userFollowers.textContent = `Followers: ${gitHubFollowers}`;
+userFollowing.textContent = `Following:${gitHubFollowing}`;
+userBio.textContent = gitHubBio;
+
+// organize html elements
+cardDiv.appendChild(userImg);
+cardDiv.appendChild(cardInfoDiv);
+cardInfoDiv.appendChild(userName);
+cardInfoDiv.appendChild(userLogin);
+cardInfoDiv.appendChild(userLoc);
+cardInfoDiv.appendChild(userProfile);
+userProfile.appendChild(profileHref);
+cardInfoDiv.appendChild(userFollowers);
+cardInfoDiv.appendChild(userFollowing);
+cardInfoDiv.appendChild(userBio);
+
+return cardDiv;
+
+}
 /*
   List of LS Instructors Github username's:
     tetondan
